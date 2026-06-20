@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Todo App</title>
+    {% load static %}
+    <link href="{% static 'todo/auth.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="post">
+           {% csrf_token %}        
+        <label for="id_username">Username:</label>
+        <input type="text" id="id_username" name="username" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} required>
+        <label for="id_password1">Password:</label>
+        <input type="password" id="id_password1" name="password1" required>
+        <label for="id_password2">Confirm Password:</label>
+        <input type="password" id="id_password2" name="password2" required>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+</body>
+</html>

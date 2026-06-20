@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>edit task</title>
+    <link href="{% static 'todo/views.css' %}" rel="stylesheet">
+</head>
+<body>
+ <h1>Edit Task</h1>
+    <form method="post" >
+        {% csrf_token %}
+       <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ task.title }}">
+        <label>
+            completed:
+            <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %}>
+        </label>
+        <button type="submit">Update Task</button>
+    </form> 
+<a href="{% url 'task_list' %}">Back to Task List</a>  
+</body>
+</html>

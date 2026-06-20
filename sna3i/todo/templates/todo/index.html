@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>task</title>
+        {% load static %}
+        <link href="{% static 'todo/views.css' %}" rel="stylesheet">
+    
+    </head>
+    <body>
+        <h1>Task List</h1>
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">login</a> to manage your tasks.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'task_create' %}">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="add a new task">
+            <button type="submit">Add Task</button>
+        </form>
+        <form method="GET" action="{% url 'task_list' %}">
+            <input type="text" name="search" placeholder="Search tasks" value="{{ search_query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <a href="{% url 'task_update' task.id %}">{{ task.title }}</a>
+                    <form method="post" action="{% url 'task_delete' task.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No tasks found.</li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% endif %}
+    </body>
+</html>
